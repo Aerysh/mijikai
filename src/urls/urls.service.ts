@@ -100,6 +100,22 @@ export class UrlsService {
     }
   }
 
+  async delete(shortCode: string) {
+    try {
+      await this.urlsRepository.delete({ shortCode });
+
+      return {
+        statusCode: HttpStatus.OK,
+      };
+    } catch (error) {
+      console.error(error.message); // probably should delete this
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   private async generateShortCode(): Promise<string> {
     const nanoid = customAlphabet(urlAlphabet, 8);
 

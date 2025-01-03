@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Param, Get, Put } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Get,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { ShortenService } from './shorten.service';
 import { CreateShortenDto } from './dto/create-shorten.dto';
 import { UpdateShortenDto } from './dto/update-shorten.dto';
@@ -23,5 +31,10 @@ export class ShortenController {
     @Body() updateShortenDto: UpdateShortenDto,
   ) {
     return this.shortenService.update(shortCode, updateShortenDto);
+  }
+
+  @Delete(':shortCode')
+  delete(@Param('shortCode') shortCode: string) {
+    return this.shortenService.delete(shortCode);
   }
 }

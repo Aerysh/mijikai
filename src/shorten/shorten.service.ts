@@ -22,4 +22,8 @@ export class ShortenService {
 
     return await this.urlsService.update(shortCode, originalUrl);
   }
+
+  async delete(shortCode: string) {
+    return await this.urlsService.delete(shortCode);
+  }
 }
