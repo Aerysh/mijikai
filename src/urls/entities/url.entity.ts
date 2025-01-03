@@ -45,7 +45,10 @@ export class UrlEntity {
   @IsDateString()
   updatedAt: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+  })
   @IsDateString()
   @IsOptional()
   expiresAt?: Date;

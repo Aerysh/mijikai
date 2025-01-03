@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UrlsModule } from './urls/urls.module';
+import { ShortenModule } from './shorten/shorten.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UrlsModule } from './urls/urls.module';
       autoLoadEntities: true,
     }),
     UrlsModule,
+    ShortenModule,
   ],
   controllers: [AppController],
   providers: [AppService],
