@@ -116,6 +116,34 @@ export class UrlsService {
     }
   }
 
+  async getAnalytics(shortCode: string) {
+    try {
+      const urlEntity = await this.urlsRepository.findOneBy({ shortCode });
+
+      if (!urlEntity) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      }
+
+      return {
+        statusCode: HttpStatus.OK,
+        data: {
+          id: urlEntity.id,
+          url: urlEntity.originalUrl,
+          shortCode: urlEntity.shortCode,
+          createdAt: urlEntity.createdAt,
+          updatedAt: urlEntity.updatedAt,
+          hits: urlEntity.hits,
+        },
+      };
+    } catch (error) {
+      console.error(error.message); // probably should delete this
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   private async generateShortCode(): Promise<string> {
     const nanoid = customAlphabet(urlAlphabet, 8);
 

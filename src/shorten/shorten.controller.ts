@@ -37,4 +37,9 @@ export class ShortenController {
   delete(@Param('shortCode') shortCode: string) {
     return this.shortenService.delete(shortCode);
   }
+
+  @Get(':shortCode/analytics') // Route for /items/:id/analytics
+  getAnalytics(@Param('shortCode') shortCode: string) {
+    return this.shortenService.getAnalytics(shortCode);
+  }
 }
