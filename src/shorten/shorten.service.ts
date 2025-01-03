@@ -8,9 +8,9 @@ export class ShortenService {
   constructor(private urlsService: UrlsService) {}
 
   async create(createShortenDto: CreateShortenDto) {
-    const { originalUrl } = createShortenDto;
+    const { url } = createShortenDto;
 
-    return await this.urlsService.create(originalUrl);
+    return await this.urlsService.create(url);
   }
 
   async findOneBy(shortCode: string) {
@@ -18,9 +18,9 @@ export class ShortenService {
   }
 
   async update(shortCode: string, updateShortenDto: UpdateShortenDto) {
-    const { originalUrl } = updateShortenDto;
+    const { url } = updateShortenDto;
 
-    return await this.urlsService.update(shortCode, originalUrl);
+    return await this.urlsService.update(shortCode, url);
   }
 
   async delete(shortCode: string) {

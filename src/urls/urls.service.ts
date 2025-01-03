@@ -10,10 +10,10 @@ export class UrlsService {
     @InjectRepository(UrlEntity) private urlsRepository: Repository<UrlEntity>,
   ) {}
 
-  async create(originalUrl: string) {
+  async create(url: string) {
     const shortCode = await this.generateShortCode();
     const newUrl = this.urlsRepository.create({
-      originalUrl,
+      url,
       shortCode,
     });
 
@@ -35,14 +35,14 @@ export class UrlsService {
     return this.buildResponse(urlEntity);
   }
 
-  async update(shortCode: string, originalUrl: string) {
+  async update(shortCode: string, url: string) {
     const urlEntity = await this.urlsRepository.findOneBy({ shortCode });
 
     if (!urlEntity) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }
 
-    urlEntity.originalUrl = originalUrl;
+    urlEntity.url = url;
 
     await this.urlsRepository.save(urlEntity);
 
@@ -84,7 +84,7 @@ export class UrlsService {
       statusCode: HttpStatus.OK,
       data: {
         id: urlEntity.id,
-        url: urlEntity.originalUrl,
+        url: urlEntity.url,
         shortCode: urlEntity.shortCode,
         createdAt: urlEntity.createdAt,
         updatedAt: urlEntity.updatedAt,

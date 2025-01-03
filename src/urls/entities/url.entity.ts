@@ -21,7 +21,7 @@ export class UrlEntity {
 
   @Column({ type: 'text' })
   @IsUrl()
-  originalUrl: string;
+  url: string;
 
   @Column({
     type: 'varchar',
