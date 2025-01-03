@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Param, Get } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Put } from '@nestjs/common';
 import { ShortenService } from './shorten.service';
 import { CreateShortenDto } from './dto/create-shorten.dto';
+import { UpdateShortenDto } from './dto/update-shorten.dto';
 
 @Controller('shorten')
 export class ShortenController {
@@ -14,5 +15,13 @@ export class ShortenController {
   @Get(':shortCode')
   findOneBy(@Param('shortCode') shortCode: string) {
     return this.shortenService.findOneBy(shortCode);
+  }
+
+  @Put(':shortCode')
+  update(
+    @Param('shortCode') shortCode: string,
+    @Body() updateShortenDto: UpdateShortenDto,
+  ) {
+    return this.shortenService.update(shortCode, updateShortenDto);
   }
 }
