@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { ShortenService } from './shorten.service';
 import { CreateShortenDto } from './dto/create-shorten.dto';
 
@@ -9,5 +9,10 @@ export class ShortenController {
   @Post()
   create(@Body() createShortenDto: CreateShortenDto) {
     return this.shortenService.create(createShortenDto);
+  }
+
+  @Get(':shortCode')
+  findOneBy(@Param('shortCode') shortCode: string) {
+    return this.shortenService.findOneBy(shortCode);
   }
 }

@@ -11,4 +11,8 @@ export class ShortenService {
 
     return await this.urlsService.create(originalUrl);
   }
+
+  async findOneBy(shortCode: string) {
+    return await this.urlsService.findOneBy(shortCode);
+  }
 }

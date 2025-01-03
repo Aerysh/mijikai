@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UrlEntity } from './entities/url.entity';
@@ -21,8 +21,9 @@ export class UrlsService {
       await this.urlsRepository.save(newUrl);
 
       return {
-        success: true,
+        statusCode: HttpStatus.OK,
         data: {
+          id: newUrl.id,
           url: newUrl.originalUrl,
           shortCode: newUrl.shortCode,
           createdAt: newUrl.createdAt,
@@ -30,14 +31,34 @@ export class UrlsService {
         },
       };
     } catch (error) {
-      return {
-        success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      };
+      console.error(error.message); // probably should delete this
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
+  }
+
+  async findOneBy(shortCode: string) {
+    const urlEntity = await this.urlsRepository.findOneBy({ shortCode });
+
+    if (!urlEntity) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    urlEntity.hits += 1;
+    await this.urlsRepository.save(urlEntity);
+
+    return {
+      statusCode: HttpStatus.OK,
+      data: {
+        id: urlEntity.id,
+        url: urlEntity.originalUrl,
+        shortCode: urlEntity.shortCode,
+        createdAt: urlEntity.createdAt,
+        updatedAt: urlEntity.updatedAt,
+      },
+    };
   }
 
   private async generateShortCode(): Promise<string> {
